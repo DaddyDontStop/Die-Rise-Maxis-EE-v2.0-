@@ -46,7 +46,7 @@ onplayerspawned()
     for(;;)
     {
         self waittill( "spawned_player" );
-        self iPrintLn( "^2Solo Mod ^5Die Rise" );
+        self iPrintLn( "^2Any Player EE Mod ^5Die Rise" );
     }
 }
 
