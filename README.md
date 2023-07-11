@@ -1,6 +1,8 @@
 # Die-Rise-Any-Player-EE
 Any player EE mod 
 
+To be placed in `%localappdata%\Plutonium\storage\t6\scripts\zm\zm_highrise`. The entire path might not exist. So, navigate to the `scripts` folder and create any missing folders.
+
 Elevator and Dragon Puzzle along with the springpad count skip function for the Richtofen side were modified from shyperson0's script.
 
 Elevators step and Dragon Puzzle: Require the same amount as the number of players. If the Dragon Puzzle step is failed, it will reset back to require the same amount as the number of players.
