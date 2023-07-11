@@ -1,12 +1,13 @@
-# Die-Rise-Maxis-EE-v2.0-
-Solo mod 
+# Die-Rise-Any-Player-EE
+Any player EE mod 
 
-Elevator and Dragon Puzzle was done by shyperson0, along with the springpad count skip function. 
+Elevator and Dragon Puzzle along with the springpad count skip function for the Richtofen side were modified from shyperson0's script.
 
-Trample Steam step: You are able to pick up 4 trample steams from the equipment table, but you must place each one down before you can equip the next one. 
-This is buggy at its current state, in order for them to work correctly, you must place/pick up each of the trample steams a few (3) times BEFORE putting them down onto the lion symbols, otherwise they may be "OFF" and will not progress the EE. You will know they are all working properly when the steam remains "ON". 
-Hopefully myself or someone else improves this in the future. Zombies will ignore your buildables. 
+Elevators step and Dragon Puzzle: Require the same amount as the number of players. If the Dragon Puzzle step is failed, it will reset back to require the same amount as the number of players.
 
-Placing the balls: Place BOTH balls on the last trample steam you put on the lion spots. Ideally the spot in the spawn room. 
+Maxis Trample Steam step: The players are able to obtain at least 4 trample steams from the equipment table during the Maxis Trample Steams step, but they must place one down before being able to equip the next one. Zombies will ignore your buildables during the step.
+Placing the balls: If the number of players is 2 or less, the players will have the ability to place both balls on the same set of Trample Steams.
 
-Remember, do NOT buy the galvaknuckles or bowie knife until the ballistic knife step is complete or the EE will NOT progress. 
+Richtofen Trample Steam step: Requires the players to place Trample Steams only on the same amount of symbols as players.
+
+Remember, do NOT completely die or buy the galvaknuckles or bowie knife until the Maxis ballistic knife step is complete or the step will NOT progress. If you buy the Galvaknuckles or the Bowie Knife, you can get rid of it by downing while having Who's Who and letting your original self disappear.
