@@ -55,7 +55,7 @@ onPlayerDisconnect()
     level endon( "end_game" );
 
     self waittill( "disconnect" );
-    level thread refresh_players_springpads_on_player_disconnect();
+    level thread refresh_players_springpads();
 }
 
 //makes zombies ignore Trample Steams placed during Maxis Trample Steam step if number of players was less than 4 when the Ballistic Knife step was completed
@@ -126,7 +126,7 @@ custom_quick_release()
 
 
 //after a player disconnects during the Maxis Trample Steam step making the number of players be less than 4 or if it already was less than 4 and depending on if not enough Trample Steams were on symbols and in inventories, gives the players not carrying Trample Steams the ability to pick up new Trample Steams
-refresh_players_springpads_on_player_disconnect()
+refresh_players_springpads()
 {
     if ( flag( "sq_branch_complete" ) || is_true( level.maxcompleted ) || !is_true( level._zombie_sidequests[ "sq_2" ].stages[ "ssp_2" ].completed ) || is_true( level._zombie_sidequests[ "sq_2" ].stages[ "pts_2" ].completed ) )
         return;
@@ -157,7 +157,7 @@ refresh_players_springpads_on_player_disconnect()
         foreach ( player in getPlayers() )
         {
             equipment = player get_player_equipment();
-            if ( isDefined( equipment ) && equipment != level.springpad_name )
+            if ( !isDefined( equipment ) || equipment != level.springpad_name )
             {
                 if ( n_total_springpads_ready_for_symbols < 4 )
                 {
