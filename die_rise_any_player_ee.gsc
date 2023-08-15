@@ -93,7 +93,7 @@ equipment_placed_listen()
     }
 }
 
-after the player places down a Trample Steam during the Maxis Trample Steam step while there are less than 4 players and depending on if not enough Trample Steams were on symbols and in inventories, gives the player the ability to pick up a new Trample Steam
+//after the player places down a Trample Steam during the Maxis Trample Steam step while there are less than 4 players and depending on if not enough Trample Steams were on symbols and in inventories, gives the player the ability to pick up a new Trample Steam
 custom_quick_release()
 {
     if ( getPlayers().size >= 4 || flag( "sq_branch_complete" ) || is_true( level.maxcompleted ) || !is_true( level._zombie_sidequests[ "sq_2" ].stages[ "ssp_2" ].completed ) || is_true( level._zombie_sidequests[ "sq_2" ].stages[ "pts_2" ].completed ) )
@@ -125,7 +125,7 @@ custom_quick_release()
 }
 
 
-after a player disconnects during the Maxis Trample Steam step making the number of players be less than 4 or if it already was less than 4 and depending on if not enough Trample Steams were on symbols and in inventories, gives the players not carrying Trample Steams the ability to pick up new Trample Steams
+//after a player disconnects during the Maxis Trample Steam step making the number of players be less than 4 or if it already was less than 4 and depending on if not enough Trample Steams were on symbols and in inventories, gives the players not carrying Trample Steams the ability to pick up new Trample Steams
 refresh_players_springpads()
 {
     if ( flag( "sq_branch_complete" ) || is_true( level.maxcompleted ) || !is_true( level._zombie_sidequests[ "sq_2" ].stages[ "ssp_2" ].completed ) || is_true( level._zombie_sidequests[ "sq_2" ].stages[ "pts_2" ].completed ) )
@@ -171,7 +171,7 @@ refresh_players_springpads()
     }
 }
 
-keeps old Trample Steam(s) in place during Maxis balls step if number of players is less than 4
+//keeps old Trample Steam(s) in place during Maxis balls step if number of players is less than 4
 custom_clean_up_old_springpad()
 {
     if ( getPlayers().size >= 4 || !is_true( level._zombie_sidequests[ "sq_2" ].stages[ "ssp_2" ].completed ) || is_true( level._zombie_sidequests[ "sq_2" ].stages[ "pts_2" ].completed ) )
@@ -196,9 +196,9 @@ custom_clean_up_old_springpad()
     }
 }
 
-Elevator Stand step
+//Elevator Stand step
 
-makes elevator symbols require as many symbols as players
+//makes elevator symbols require as many symbols as players
 custom_sq_atd_elevators()
 {
     a_elevators = array( "elevator_bldg1b_trigger", "elevator_bldg1d_trigger", "elevator_bldg3b_trigger", "elevator_bldg3c_trigger" );
@@ -234,7 +234,7 @@ custom_sq_atd_elevators()
     level thread vo_maxis_atd_elevators();
 }
 
-checks if the players are standing on enough elevators
+//checks if the players are standing on enough elevators
 standing_on_enough_elevators_check( a_elevator_flags )
 {
     n_players_standing_on_elevator = 0;
@@ -248,9 +248,9 @@ standing_on_enough_elevators_check( a_elevator_flags )
     return n_players_standing_on_elevator >= custom_get_number_of_players();
 }
 
-Dragon Puzzle step
+//Dragon Puzzle step
 
-initialises the floor symbols require as many symbols as players
+//initialises the floor symbols require as many symbols as players
 custom_sq_atd_drg_puzzle()
 {
     level.sq_atd_cur_drg = 4 - custom_get_number_of_players();
@@ -267,7 +267,7 @@ custom_sq_atd_drg_puzzle()
     level thread vo_maxis_atd_order_complete();
 }
 
-when floor symbols reset, they reset back to require as many symbols as players
+//when floor symbols reset, they reset back to require as many symbols as players
 custom_drg_puzzle_trig_think( n_order_id )
 {
     self.drg_active = 0;
@@ -313,7 +313,7 @@ custom_drg_puzzle_trig_think( n_order_id )
     }
 }
 
-returns the number of players, and if the number is greater than 4, returns 4. Used for specific steps
+//returns the number of players, and if the number is greater than 4, returns 4. Used for specific steps
 custom_get_number_of_players()
 {
     n_players = getPlayers().size;
@@ -323,7 +323,7 @@ custom_get_number_of_players()
     return n_players;
 }
 
-if the number of players is less than 2 and a ball is placed for the Maxis Trample Steam step, keeps the trigger to place a new ball for the Trample Steam it was placed on and the one opposite from it
+//if the number of players is less than 2 and a ball is placed for the Maxis Trample Steam step, keeps the trigger to place a new ball for the Trample Steam it was placed on and the one opposite from it
 custom_place_ball_think( t_place_ball, s_lion_spot )
 {
     t_place_ball endon( "delete" );
@@ -347,7 +347,7 @@ custom_place_ball_think( t_place_ball, s_lion_spot )
     self.t_putdown_ball delete();
 }
 
-if the number of players is 2 or less, gives the ability to place a 2nd ball on a set of Trample Steams that already has a ball flinging from them for the Maxis Trample Steam step
+//if the number of players is 2 or less, gives the ability to place a 2nd ball on a set of Trample Steams that already has a ball flinging from them for the Maxis Trample Steam step
 custom_pts_putdown_trigs_create_for_spot( s_lion_spot, player )
 {
     if ( ( isdefined( s_lion_spot.which_ball ) || isdefined( s_lion_spot.springpad_buddy ) && isdefined( s_lion_spot.springpad_buddy.which_ball ) ) && getPlayers().size > 2 )
