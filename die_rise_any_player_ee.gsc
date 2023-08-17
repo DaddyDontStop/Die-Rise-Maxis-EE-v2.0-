@@ -17,13 +17,15 @@ main()
     replaceFunc( ::pts_springpad_waittill_removed, ::custom_pts_springpad_waittill_removed );
     replaceFunc( ::wait_for_all_springpads_placed, ::custom_wait_for_all_springpads_placed );
     replaceFunc( ::springpad_count_watcher, ::custom_springpad_count_watcher );
+    replaceFunc( ::pts_should_player_create_trigs, ::custom_pts_should_player_create_trigs );
+    replaceFunc( ::pts_should_springpad_create_trigs, ::custom_pts_should_springpad_create_trigs );
     replaceFunc( ::pts_putdown_trigs_create_for_spot, ::custom_pts_putdown_trigs_create_for_spot );
     replaceFunc( ::place_ball_think, ::custom_place_ball_think );
 }
 
 init()
 {
-    level thread custom_ignore_springpads_during_pts_2();
+    //level thread custom_ignore_springpads_during_pts_2();
     thread onplayerconnect();
 }
 
@@ -42,11 +44,15 @@ onplayerspawned()
 {
     level endon( "game_ended" );
     self endon( "disconnect" );
-
+    self.initial_spawn = 1;
     for(;;)
     {
         self waittill( "spawned_player" );
-        self iPrintLn( "^2Any Player EE Mod ^5Die Rise" );
+        if(self.initial_spawn)
+        {
+            self.initial_spawn = 0;
+            self iPrintLn( "^2Any Player EE Mod ^5Die Rise" );
+        }
     }
 }
 
@@ -110,8 +116,9 @@ custom_quick_release()
             n_deployed_springpads_on_symbols++;
     }
 
+    players = getPlayers();
     n_springpads_in_inventory = 0;
-    foreach ( player in getPlayers() )
+    foreach ( player in players )
     {
         equipment = player get_player_equipment();
         if ( isDefined( equipment ) && equipment == level.springpad_name )
@@ -143,7 +150,8 @@ refresh_players_springpads()
     }
 
     n_springpads_in_inventory = 0;
-    foreach ( player in getPlayers() )
+    players = getPlayers();
+    foreach ( player in players )
     {
         equipment = player get_player_equipment();
         if ( isDefined( equipment ) && equipment == level.springpad_name )
@@ -152,9 +160,9 @@ refresh_players_springpads()
 
     n_total_springpads_ready_for_symbols = n_deployed_springpads_on_symbols + n_springpads_in_inventory;
 
-    if ( getPlayers().size < 4 && n_total_springpads_ready_for_symbols < 4 )
+    if ( players.size < 4 && n_total_springpads_ready_for_symbols < 4 )
     {
-        foreach ( player in getPlayers() )
+        foreach ( player in players )
         {
             equipment = player get_player_equipment();
             if ( !isDefined( equipment ) || equipment != level.springpad_name )
@@ -323,6 +331,8 @@ custom_get_number_of_players()
     return n_players;
 }
 
+// Trample Steam steps
+
 //if the number of players is less than 2 and a ball is placed for the Maxis Trample Steam step, keeps the trigger to place a new ball for the Trample Steam it was placed on and the one opposite from it
 custom_place_ball_think( t_place_ball, s_lion_spot )
 {
@@ -347,7 +357,41 @@ custom_place_ball_think( t_place_ball, s_lion_spot )
     self.t_putdown_ball delete();
 }
 
-//if the number of players is 2 or less, gives the ability to place a 2nd ball on a set of Trample Steams that already has a ball flinging from them for the Maxis Trample Steam step
+//on the Maxis side if the player is playing solo or 3p, once the player picks up a ball, gives the player the ability to place the ball without needing a Trample Steam on the opposite end. On 3p, this is executed if the ball is picked up while there's already a ball flinging.
+custom_pts_should_player_create_trigs( player )
+{
+    a_lion_spots = getstructarray( "pts_lion", "targetname" );
+    players = getPlayers();
+
+    foreach ( s_lion_spot in a_lion_spots )
+    {
+        if ( isdefined( s_lion_spot.springpad ) && ( isdefined( s_lion_spot.springpad_buddy.springpad ) || players.size == 1 || ( players.size == 3 && flag( "pts_2_generator_1_started" )
+ ) ) )
+            pts_putdown_trigs_create_for_spot( s_lion_spot, player );
+    }
+}
+
+//on the Maxis side if the player is playing solo or 3p, once a player places a Trample Steam correctly, gives each player already carrying a ball the ability to place it without needing a Trample Steam on the opposite end. On 3p, this is executed if the Trample Steam is placed while there's already a ball flinging.
+custom_pts_should_springpad_create_trigs( s_lion_spot )
+{
+    if ( isdefined( s_lion_spot.springpad ) && ( isdefined( s_lion_spot.springpad_buddy.springpad ) || getPlayers().size == 1 || ( getPlayers().size == 3 && flag( "pts_2_generator_1_started" )
+ ) ) )
+    {
+        a_players = getplayers();
+
+        foreach ( player in a_players )
+        {
+            if ( isdefined( player.zm_sq_has_ball ) && player.zm_sq_has_ball )
+            {
+                pts_putdown_trigs_create_for_spot( s_lion_spot, player );
+                if ( isdefined( s_lion_spot.springpad_buddy.springpad ) )
+                    pts_putdown_trigs_create_for_spot( s_lion_spot.springpad_buddy, player );
+            }
+        }
+    }
+}
+
+//if the number of players is 2 or less, once a ball is picked up, gives the ability to place a 2nd ball on a set of Trample Steams that already has a ball flinging from them for the Maxis Trample Steam step
 custom_pts_putdown_trigs_create_for_spot( s_lion_spot, player )
 {
     if ( ( isdefined( s_lion_spot.which_ball ) || isdefined( s_lion_spot.springpad_buddy ) && isdefined( s_lion_spot.springpad_buddy.which_ball ) ) && getPlayers().size > 2 )
@@ -393,7 +437,7 @@ custom_springpad_count_watcher( is_generator )
         n_players = custom_get_number_of_players();
         while ( !is_generator && n_count >= n_players && n_count < 4 )
         {
-            wait 10;
+            wait 7;
             n_count++;
             level notify( "sq_pts_springad_count" + n_count );
         }
@@ -403,14 +447,15 @@ custom_springpad_count_watcher( is_generator )
 //if the number of players is less than 4 and a player picks up a Trample Steam, doesn't undefine the players' Trample Steams that are on lion symbols for the Maxis Trample Steam step
 custom_pts_springpad_waittill_removed( m_springpad )
 {
-    if ( getPlayers().size >= 4 || !is_true( level._zombie_sidequests[ "sq_2" ].stages[ "ssp_2" ].completed ) )
-    {
-        m_springpad endon( "delete" );
-        m_springpad endon( "death" );
-    }
-
     while ( !is_true( level._zombie_sidequests[ "sq_2" ].stages[ "pts_2" ].completed ) )
     {
+        if ( ( getPlayers().size >= 4 || !is_true( level._zombie_sidequests[ "sq_2" ].stages[ "ssp_2" ].completed ) ) && !is_true( endons_set ) )
+        {
+            m_springpad endon( "delete" );
+            m_springpad endon( "death" );
+            endons_set = 1;
+        }
+
         msg = self waittill_any_return( "death", "disconnect", "equip_springpad_zm_taken", "equip_springpad_zm_pickup" );
         if ( getPlayers().size >= 4 || !is_true( level._zombie_sidequests[ "sq_2" ].stages[ "ssp_2" ].completed ) || ( msg != "equip_springpad_zm_taken" && msg != "equip_springpad_zm_pickup" ) )
             break;
