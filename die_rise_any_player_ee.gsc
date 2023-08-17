@@ -51,7 +51,7 @@ onplayerspawned()
 		if(self.initial_spawn)
 		{
 			self.initial_spawn = 0;
-			self iPrintLn( "^2Any Player EE Mod ^5Die Rise" );
+			self iPrintLn( "^3Any Player EE Mod ^5Die Rise" );
 		}
 	}
 }
@@ -365,8 +365,7 @@ custom_pts_should_player_create_trigs( player )
 
 	foreach ( s_lion_spot in a_lion_spots )
 	{
-		if ( isdefined( s_lion_spot.springpad ) && ( isdefined( s_lion_spot.springpad_buddy.springpad ) || players.size == 1 || ( players.size == 3 && flag( "pts_2_generator_1_started" )
- ) ) )
+		if ( isdefined( s_lion_spot.springpad ) && ( isdefined( s_lion_spot.springpad_buddy.springpad ) || players.size == 1 || ( players.size == 3 && flag( "pts_2_generator_1_started" ) ) ) )
 			pts_putdown_trigs_create_for_spot( s_lion_spot, player );
 	}
 }
@@ -374,8 +373,7 @@ custom_pts_should_player_create_trigs( player )
 //on the Maxis side if the player is playing solo or 3p, once a player places a Trample Steam correctly, gives each player already carrying a ball the ability to place it without needing a Trample Steam on the opposite end. On 3p, this is executed if the Trample Steam is placed while there's already a ball flinging.
 custom_pts_should_springpad_create_trigs( s_lion_spot )
 {
-	if ( isdefined( s_lion_spot.springpad ) && ( isdefined( s_lion_spot.springpad_buddy.springpad ) || getPlayers().size == 1 || ( getPlayers().size == 3 && flag( "pts_2_generator_1_started" )
- ) ) )
+	if ( isdefined( s_lion_spot.springpad ) && ( isdefined( s_lion_spot.springpad_buddy.springpad ) || getPlayers().size == 1 || ( getPlayers().size == 3 && flag( "pts_2_generator_1_started" ) ) ) )
 	{
 		a_players = getplayers();
 
