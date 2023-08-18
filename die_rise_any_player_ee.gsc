@@ -10,11 +10,11 @@
 
 main()
 {
-	replaceFunc( ::cleanupoldspringpad, ::custom_clean_up_old_springpad );
+	//replaceFunc( ::cleanupoldspringpad, ::custom_clean_up_old_springpad );
 	replaceFunc( ::sq_atd_elevators, ::custom_sq_atd_elevators );
 	replaceFunc( ::sq_atd_drg_puzzle, ::custom_sq_atd_drg_puzzle );
 	replaceFunc( ::drg_puzzle_trig_think, ::custom_drg_puzzle_trig_think );
-	replaceFunc( ::pts_springpad_waittill_removed, ::custom_pts_springpad_waittill_removed );
+	//replaceFunc( ::pts_springpad_waittill_removed, ::custom_pts_springpad_waittill_removed );
 	replaceFunc( ::wait_for_all_springpads_placed, ::custom_wait_for_all_springpads_placed );
 	replaceFunc( ::springpad_count_watcher, ::custom_springpad_count_watcher );
 	replaceFunc( ::pts_should_player_create_trigs, ::custom_pts_should_player_create_trigs );
@@ -35,8 +35,8 @@ onplayerconnect()
 	{
 		level waittill("connecting", player);
 		player thread onplayerspawned();
-		player thread equipment_placed_listen();
-		player thread onPlayerDisconnect();
+		//player thread equipment_placed_listen();
+		//player thread onPlayerDisconnect();
 	}
 }
 
