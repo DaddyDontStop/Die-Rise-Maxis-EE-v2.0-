@@ -355,6 +355,27 @@ custom_place_ball_think( t_place_ball, s_lion_spot )
 	level.current_generator++;
 	s_lion_spot.springpad thread pts_springpad_fling( s_lion_spot.script_noteworthy, s_lion_spot.springpad_buddy.springpad );
 	self.t_putdown_ball delete();
+
+	if ( a_players.size == 3 )
+	{
+		foreach ( player in a_players )
+		{
+			if ( isdefined( player.zm_sq_has_ball ) && player.zm_sq_has_ball )
+				pts_should_placing_ball_create_trigs( s_lion_spot, player );
+		}
+	}
+}
+
+//once a player flings a ball, gives each player already carrying a ball the ability to place it on the Trample Steam(s) placed on the other set of symbols than the ones on which the ball was flung.
+pts_should_placing_ball_create_trigs( s_lion_spot_used, player )
+{
+	a_lion_spots = getstructarray( "pts_lion", "targetname" );
+
+	foreach ( s_lion_spot in a_lion_spots )
+	{
+		if ( isdefined( s_lion_spot.springpad ) && s_lion_spot != s_lion_spot_used && s_lion_spot.springpad_buddy != s_lion_spot_used )
+			pts_putdown_trigs_create_for_spot( s_lion_spot, player );
+	}
 }
 
 //on the Maxis side if the player is playing solo or 3p, once the player picks up a ball, gives the player the ability to place the ball on an already correctly placed Trample Steam without needing a Trample Steam on the opposite end. On 3p, this is executed if the ball is picked up while there's already a ball flinging.
