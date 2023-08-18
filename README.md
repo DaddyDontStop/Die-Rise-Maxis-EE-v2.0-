@@ -7,7 +7,7 @@ Elevator and Dragon Puzzle along with the springpad count skip function for the 
 
 Elevators step and Dragon Puzzle: Require the same amount as the number of players. If the Dragon Puzzle step is failed, it will reset back to require the same amount as the number of players.
 
-Maxis Trample Steam step: The players are able to obtain at least 4 trample steams from the equipment table during the Maxis Trample Steams step, but they must place one down before being able to equip the next one. (Disabled) Zombies will ignore your buildables during the step.  
+Maxis Trample Steam step: (Disabled) The players are able to obtain at least 4 trample steams from the equipment table during the Maxis Trample Steams step, but they must place one down before being able to equip the next one. (Disabled) Zombies will ignore your buildables during the step.  
 Placing the balls:
 - If the number of players is 2 or less, the players will have the ability to place both balls on the same set of Trample Steams.
 - If the player is playing solo or 3p:
