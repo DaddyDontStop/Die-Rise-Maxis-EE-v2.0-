@@ -34,25 +34,9 @@ onplayerconnect()
 	while(true)
 	{
 		level waittill("connecting", player);
-		player thread onplayerspawned();
+		player iPrintLn( "^3Any Player EE Mod ^5Die Rise" );
 		//player thread equipment_placed_listen();
 		//player thread onPlayerDisconnect();
-	}
-}
-
-onplayerspawned()
-{
-	level endon( "game_ended" );
-	self endon( "disconnect" );
-	self.initial_spawn = 1;
-	for(;;)
-	{
-		self waittill( "spawned_player" );
-		if(self.initial_spawn)
-		{
-			self.initial_spawn = 0;
-			self iPrintLn( "^3Any Player EE Mod ^5Die Rise" );
-		}
 	}
 }
 
@@ -334,13 +318,15 @@ custom_get_number_of_players()
 // Trample Steam steps
 
 //if the number of players is less than or equal to 2 and a ball is placed for the Maxis Trample Steam step, keeps the trigger to place a new ball for the Trample Steam it was placed on and the one opposite from it
+//if the number of players is 3, creates trigs for each player already carrying a ball to enable them to place the ball on the lone Trample Steam if the Trample Steam was correctly placed before the 1st ball is launched.
 custom_place_ball_think( t_place_ball, s_lion_spot )
 {
 	t_place_ball endon( "delete" );
 
 	t_place_ball waittill( "trigger" );
 
-	if ( getPlayers().size > 2 )
+	a_players = getPlayers();
+	if ( a_players.size > 2 )
 	{
 		pts_putdown_trigs_remove_for_spot( s_lion_spot );
 		pts_putdown_trigs_remove_for_spot( s_lion_spot.springpad_buddy );
